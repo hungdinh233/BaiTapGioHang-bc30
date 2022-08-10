@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 export default class Cart extends Component {
   render() {
-    let { cartModalProd } = this.props;
+    let { arrProdInCart, changeQuantity, delProdInCart } = this.props;
     return (
       <div>
         {/* Button trigger modal */}
@@ -37,30 +37,66 @@ export default class Cart extends Component {
               <div className="modal-body">
                 <table className="table w-100">
                   <thead>
-                    <tr>
+                    <tr className="text-center">
                       <th>Mã sản phẩm</th>
                       <th>Hình ảnh</th>
                       <th>Tên sản phẩm</th>
                       <th>Số lượng</th>
                       <th>Đơn giá</th>
                       <th>Thành tiền</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>{cartModalProd.maSP}</td>
-                      <td>
-                        <img
-                          src={cartModalProd.hinhAnh}
-                          alt="..."
-                          style={{ width: 70 }}
-                        />
-                      </td>
-                      <td>{cartModalProd.tenSP}</td>
-                      <td>Số lượng</td>
-                      <td>{cartModalProd.giaBan.toLocaleString()}</td>
-                      <td>Thành tiền</td>
-                    </tr>
+                    {arrProdInCart.map((prod, index) => {
+                      return (
+                        <tr key={index} className="text-center">
+                          <td>{prod.maSP}</td>
+                          <td>
+                            <img
+                              src={prod.hinhAnh}
+                              alt="..."
+                              style={{ width: 70 }}
+                            />
+                          </td>
+                          <td>{prod.tenSP}</td>
+                          <td>
+                            <button
+                              className="btn btn-primary mx-2"
+                              onClick={() => {
+                                changeQuantity(prod.maSP, true);
+                              }}
+                            >
+                              {" "}
+                              +{" "}
+                            </button>
+                            {prod.soLuong}
+                            <button
+                              className="btn btn-primary mx-2"
+                              onClick={() => {
+                                changeQuantity(prod.maSP, false);
+                              }}
+                            >
+                              -{" "}
+                            </button>
+                          </td>
+                          <td>{prod.giaBan.toLocaleString()}</td>
+                          <td>
+                            {(prod.soLuong * prod.giaBan).toLocaleString()}
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => {
+                                delProdInCart(prod.maSP);
+                              }}
+                            >
+                              Xóa
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

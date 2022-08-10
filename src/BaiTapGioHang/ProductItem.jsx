@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Cart from "./Cart";
+
 
 export default class ProductItem extends Component {
   render() {
